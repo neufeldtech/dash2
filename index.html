@@ -1,0 +1,53 @@
+<html>
+  <head>
+    <title>dash2</title>
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+    <script src="md5.js"></script>
+    <link rel="stylesheet" href="/main.css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  </head>
+  <body>
+    <script>
+    var websites = ["http://www.keystoneconcreteltd.ca/","http://www.batnert.ca", "http://www.brandonsunsells.com", "http://www.brandonsun2.com", "http://www.carberrynews.ca","http://brandonsun.can.newsmemory.com/"]
+    //Set timeout tolerance to 9 seconds
+    $.ajaxSetup({
+      timeout: 9000
+    });
+    function getStatus(url, cb) {
+      var cacheBuster = Date.now()
+      $.get("http://crossorigin.me/" + url + "?_=" + cacheBuster , function(data){
+        cb(url, true)
+      }).fail(function(){
+        cb(url, false)
+      });
+    }
+    function writeResults(){
+      for (var w = 0; w < websites.length; w++){
+        getStatus(websites[w],function(url, result){
+          var hash = $.md5(url);
+          if (result == true) {
+            $('#'+hash).html("<i class='fa fa-check-circle "+result+"'></i><span class='url'>"+url+"</span>"+"<span class='date'>"+new Date()+"</span>")
+          } else if (result == false){
+            $('#'+hash).html("<i class='fa fa-exclamation-triangle "+result+"'></i><span class='url'>"+url+"</span>"+"<span class='date'>"+new Date()+"</span>")
+          }
+        });
+      }
+    }
+    //create the elements and populate
+    for (var w = 0; w < websites.length; w++){
+      var hash = $.md5(websites[w]);
+      var element = document.createElement('div');
+      $('body').append(element)
+      element.id = hash;
+      $('#'+hash).html("<i class='fa fa-spin fa-spinner'></i><span class='url'>"+websites[w]+"</span>"+"<span class='pending'></span>"+"<span class='date'>Pending...</span>")
+    }
+    //Perform the checks
+    writeResults()
+    //re-check every 10 seconds
+    setInterval(function(){
+      writeResults()
+    }, 10000)
+
+    </script>
+  </body>
+</html>

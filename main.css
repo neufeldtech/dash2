@@ -1,0 +1,29 @@
+body {
+  background-image: url("http://unsplash.it/1920/1080/?random");
+  background-repeat: no-repeat;
+  font-family: monospace;
+  margin: 0;
+  padding: 0;
+  min-width: 720px;
+  font-size: 1.1em;
+}
+div {
+  background-color: #fff;
+  opacity: 0.85;
+}
+span {
+  margin: 0px 5px 0px 0px;
+}
+span.date {
+  float: right;
+}
+i {
+  margin: 0px 5px 0px 5px;
+}
+i.true {
+  color: #99e600;
+}
+i.false {
+  color: #cc0000
+;
+}
